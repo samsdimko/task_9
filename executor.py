@@ -22,16 +22,16 @@ class Executor(threading.Thread):
         while not self._stop_event.is_set():
             for filename in os.listdir(self.directory):
                 if filename.endswith('.csv'):
-                    #try:
-                    filepath = os.path.join(self.directory, filename)
-                    self.execute(filepath)
-                    if self.archive_directory:
-                        archive_filepath = os.path.join(self.directory, filename)
-                        os.replace(filepath, archive_filepath)
-                    else:
-                        os.remove(filepath)
-                    #except Exception as e:
-                    #    print(f"Error processing {filename}: {e}")
+                    try:
+                        filepath = os.path.join(self.directory, filename)
+                        self.execute(filepath)
+                        if self.archive_directory:
+                            archive_filepath = os.path.join(self.directory, filename)
+                            os.replace(filepath, archive_filepath)
+                        else:
+                            os.remove(filepath)
+                    except Exception as e:
+                        print(f"Error processing {filename}: {e}")
 
     def stop(self):
         self._stop_event.set()
